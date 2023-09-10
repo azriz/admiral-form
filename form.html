@@ -1,4 +1,12 @@
-<!-- Sorry that I was unable to complete this in the 45-50 minutes that I had, but I feel that more time was required to complete the task and write all of the code below. Thank you very much for your time, and I would greatly appreciate any feedback. -->
+<!--
+  Sorry that I was unable to complete this in the 45-50 minutes that I had, but I feel that more time was required to complete the task and write all of the code below.
+  
+  Thank you very much for your time, and I would greatly appreciate any feedback.
+
+  (Styling has been deliberately been kept to a minimum to adhere to the task instructions. Words not capitalised etc. also for the same reason.)
+
+  Please have console open to see console logs.
+-->
 
 <style>
   /* input:valid {
@@ -35,6 +43,10 @@
 
   button {
     margin-top: 20px;
+  }
+  .submitReady {
+    background-color: #34e27f;
+    color: #000000;
   }
 </style>
 
@@ -120,11 +132,11 @@
       fullName.classList.remove("inputInvalid");
       fullName.classList.add("inputValid");
       fullNameValidity = true;
-      console.log("name valid!!!");
+      console.log("name valid!");
     } else {
       fullName.classList.remove("inputValid");
       fullName.classList.add("inputInvalid");
-      console.log("name INvalid");
+      console.log("name NOT valid");
       fullNameContainer.style.display = "none";
       splitNameContainer.style.display = "flex";
     }
@@ -137,17 +149,17 @@
         splitNameInputSingle.classList.add("inputValid");
         if (splitNameInputSingle === firstName) {
           firstNameValidity = true;
-          console.log("btw firstname was matched");
+          console.log("firstname was matched");
         }
         if (splitNameInputSingle === lastName) {
           lastNameValidity = true;
-          console.log("btw lastname was matched");
+          console.log("lastname was matched");
         }
-        console.log("split name valid!!!");
+        console.log("split name valid!");
       } else {
         splitNameInputSingle.classList.remove("inputValid");
         splitNameInputSingle.classList.add("inputInvalid");
-        console.log("split name INvalid");
+        console.log("split name NOT valid");
       }
     });
 
@@ -156,11 +168,11 @@
       phoneNumber.classList.remove("inputInvalid");
       phoneNumber.classList.add("inputValid");
       phoneNumberValidity = true;
-      console.log("phone valid!!!");
+      console.log("phone valid!");
     } else {
       phoneNumber.classList.remove("inputValid");
       phoneNumber.classList.add("inputInvalid");
-      console.log("phone INvalid");
+      console.log("phone NOT valid");
     }
 
     // Check to see that all minimum validity requirements were met to be able to submit form
@@ -171,6 +183,9 @@
       console.log(
         `ALL REQUIREMENTS MET - form is submittable! ${fullNameValidity} ${firstNameValidity} ${lastNameValidity} ${phoneNumberValidity}`
       );
+      submitBtn.classList.add("submitReady");
+    } else {
+      console.log("Requirements are not being met");
     }
   });
 
