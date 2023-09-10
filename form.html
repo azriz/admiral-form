@@ -1,0 +1,181 @@
+<!-- Sorry that I was unable to complete this in the 45-50 minutes that I had, but I feel that more time was required to complete the task and write all of the code below. Thank you very much for your time, and I would greatly appreciate any feedback. -->
+
+<style>
+  /* input:valid {
+    border: 1px solid green;
+  }
+  input:invalid {
+    border: 1px solid red;
+  } */
+
+  .inputValid {
+    border: 2px solid green;
+  }
+  .inputInvalid {
+    border: 2px solid red;
+  }
+
+  .admiralForm {
+    width: 300px;
+    flex-direction: column;
+    display: flex;
+  }
+  .nameContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #splitNameContainer {
+    display: none;
+  }
+
+  input {
+    margin-bottom: 10px;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+</style>
+
+<div>
+  <form
+    id="admiralForm"
+    class="admiralForm"
+    name="admiralForm"
+    action=""
+    method=""
+  >
+    <div id="fullNameContainer" class="nameContainer">
+      <label for="fullName">full name</label>
+      <input
+        type="text"
+        id="fullName"
+        name="fullName"
+        pattern="([a-zA-Z]+\s){1,}([a-zA-Z]+)$"
+      />
+    </div>
+    <div id="splitNameContainer" class="nameContainer">
+      <label for="firstName">first name</label>
+      <input
+        type="text"
+        id="firstName"
+        class="splitNameInput"
+        name="firstName"
+        pattern="^[A-Za-z]+$"
+      />
+      <label for="lastName">last name</label>
+      <input
+        type="text"
+        id="lastName"
+        class="splitNameInput"
+        name="lastName"
+        pattern="^[A-Za-z]+$"
+      />
+    </div>
+
+    <label for="phoneNumber">phone number</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" pattern="^\d{9}$" />
+
+    <button type="submit" id="submitBtn">submit</button>
+  </form>
+</div>
+
+<script>
+  // Declaring form and submit elements as constants
+  const form = document.getElementById("admiralForm");
+  const submitBtn = document.getElementById("submitBtn");
+
+  submitBtn.addEventListener("click", (e) => {
+    // Declaring all Regex patterns for JS validation as constants
+    const fullNameRegEx = /([a-zA-Z]+\s){1,}([a-zA-Z]+)$/;
+    const splitNameRegEx = /^[A-Za-z]+$/;
+    const phoneNumberRegEx = /^\d{9}$/;
+
+    // Declaring all used elements as constants
+    const fullNameContainer = document.getElementById("fullNameContainer");
+    const fullName = document.getElementById("fullName");
+    const fullNameValue = fullName.value;
+
+    const splitNameContainer = document.getElementById("splitNameContainer");
+    const splitNameInputs = document.querySelectorAll(".splitNameInput");
+    const splitNameInputsArray = [...splitNameInputs];
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+
+    const phoneNumber = document.getElementById("phoneNumber");
+    const phoneNumberValue = phoneNumber.value;
+
+    // Declaring and initialising validity of fields as false
+    let fullNameValidity = false;
+    let firstNameValidity = false;
+    let lastNameValidity = false;
+    let phoneNumberValidity = false;
+
+    // Preventing submit button default behaviour to avoid refreshing page
+    e.preventDefault();
+
+    // Testing input values against Regex patterns and setting appropriate classes as visual markers
+    if (fullNameRegEx.test(fullNameValue)) {
+      fullName.classList.remove("inputInvalid");
+      fullName.classList.add("inputValid");
+      fullNameValidity = true;
+      console.log("name valid!!!");
+    } else {
+      fullName.classList.remove("inputValid");
+      fullName.classList.add("inputInvalid");
+      console.log("name INvalid");
+      fullNameContainer.style.display = "none";
+      splitNameContainer.style.display = "flex";
+    }
+
+    // Grouping firstname and lastname inputs to reduce code repetition
+    splitNameInputsArray.map((el) => {
+      const splitNameInputSingle = el;
+      if (splitNameRegEx.test(splitNameInputSingle.value)) {
+        splitNameInputSingle.classList.remove("inputInvalid");
+        splitNameInputSingle.classList.add("inputValid");
+        if (splitNameInputSingle === firstName) {
+          firstNameValidity = true;
+          console.log("btw firstname was matched");
+        }
+        if (splitNameInputSingle === lastName) {
+          lastNameValidity = true;
+          console.log("btw lastname was matched");
+        }
+        console.log("split name valid!!!");
+      } else {
+        splitNameInputSingle.classList.remove("inputValid");
+        splitNameInputSingle.classList.add("inputInvalid");
+        console.log("split name INvalid");
+      }
+    });
+
+    // Testing input values against Regex patterns and setting appropriate classes as visual markers
+    if (phoneNumberRegEx.test(phoneNumberValue)) {
+      phoneNumber.classList.remove("inputInvalid");
+      phoneNumber.classList.add("inputValid");
+      phoneNumberValidity = true;
+      console.log("phone valid!!!");
+    } else {
+      phoneNumber.classList.remove("inputValid");
+      phoneNumber.classList.add("inputInvalid");
+      console.log("phone INvalid");
+    }
+
+    // Check to see that all minimum validity requirements were met to be able to submit form
+    if (
+      (fullNameValidity || (firstNameValidity && lastNameValidity)) &&
+      phoneNumberValidity
+    ) {
+      console.log(
+        `ALL REQUIREMENTS MET - form is submittable! ${fullNameValidity} ${firstNameValidity} ${lastNameValidity} ${phoneNumberValidity}`
+      );
+    }
+  });
+
+  // Duplicating first word of FullName input to insert as FirstName value
+  fullName.addEventListener("input", () => {
+    firstName.value = fullName.value.split(" ")[0];
+  });
+</script>
